@@ -46,7 +46,7 @@ public class ProblemFour {
 			 * System.out.print(" "+num); }
 			 */
 			 
-			 counter.countElemnet(randomNumbersArray, elementCountMap);
+			 counter.countElemnet(randomNumbersArray, elementCountMap);//n 
 			 System.out.println("Elements count-----> "+elementCountMap);
 			
 		}
