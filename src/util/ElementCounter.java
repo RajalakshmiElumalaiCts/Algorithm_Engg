@@ -22,8 +22,7 @@ public class ElementCounter {
 				elementCountMap.put(element,1);
 			}
 			
-		}
-		
+		}		
 	}
 
 	public Map<Integer, String> calculateElementProbability(int totalElemnetCount, Map<Integer, Integer> elementCountMap) {

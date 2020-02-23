@@ -46,4 +46,32 @@ public class DuplicateRemover {
 		return false;
 	}
 
+	public boolean isDuplicated(int[] randomNumbers, int generatedNumber, int indexToCheck) {
+		
+		for(int index=0; index < indexToCheck; index++) {
+			if(randomNumbers[index] == generatedNumber) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//This method removed defaulted/padded '0' at the end of the array 'randomNumbers'
+	public int[] removeDefaultValues(int[] randomNumbers, int[] nonDuplicatedNumbers) {
+			
+			//Checks whether the last element in array 'randomNumbers' is default value 0. If so, array has some defaulted values
+			//and need to be cleaned up
+			if(randomNumbers[randomNumbers.length-1] == 0) {//for best case array has no default value 0 at the end
+				
+				// Worst case n-1 times. one element got duplicated, so it has to copy all the n-1 elements
+				for(int index = 0; index <nonDuplicatedNumbers.length; index++) {
+					nonDuplicatedNumbers[index] = randomNumbers[index];
+				}
+				return nonDuplicatedNumbers;
+			}else {
+				return randomNumbers;
+			}
+		}
+
 }

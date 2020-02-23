@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 import util.ElementCounter;
 
@@ -16,34 +15,41 @@ public class ProblemThree {
 		Instant startTime = Instant.now();
 		
 		ElementCounter counter = new ElementCounter();
+		
+		//Map to record each element’s occurrences
 		Map<Integer, Integer> elementCountMap = new HashMap<Integer, Integer>(); 
 		
-		int n_noOfElements; 
+		int n_noOfElements, generatedNumber; 
+		int randomNumbers[];
 		if(args[0] != null) {
 			n_noOfElements = Integer.parseInt(args[0]);
+			randomNumbers = new int[n_noOfElements];
 			
-			//Generate Random Numbers
-			Random randomObj = new Random();
-			IntStream randomNumners = randomObj.ints(n_noOfElements, 1, 3+1); // 1 sec = O(1)
-			
-			
-			 //Storing data exists in Stream to Array
-			 int[] randomNumbersArray = randomNumners.toArray();
-			 
-			
+			//Generate n random numbers between 1 & m_maxNumber for an iteration				
+			for(int numCount = 0; numCount < n_noOfElements; numCount++) {//n times
+				generatedNumber = new Random().nextInt((3+1)-1) + 1;
+				
+				//Adds the new number into array
+				randomNumbers[numCount] = generatedNumber;
+				
+			}
+			 			
 			/*
-			 * for(int num : randomNumbersArray) { // n times will get executed.ignore
+			 * for(int num : randomNumbers) { // n times will get executed.ignore
 			 * System.out.print(" "+num); } System.out.println(" After sorting");
 			 */
 			
-			 bubbleSort(randomNumbersArray);//O[(n^2) - 5n]
+			
+			 bubbleSort(randomNumbers);//O[(n^2) - 5n]
 			 
+			
 			/*
-			 * for(int num : randomNumbersArray) { // n times will get executed.ignore
+			 * for(int num : randomNumbers) { // n times will get executed.ignore
 			 * System.out.print(" "+num); }
 			 */
+			
 			 
-			 counter.countElemnet(randomNumbersArray, elementCountMap); // O(n)
+			 counter.countElemnet(randomNumbers, elementCountMap); // O(n)
 			 System.out.println("Elements count-----> "+elementCountMap);
 			
 		}

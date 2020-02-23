@@ -5,13 +5,11 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 import util.ElementCounter;
 
 public class ProblemFour {
 	
-	static int[] randomNumbersArray;
 
 	public static void main(String[] args) {
 
@@ -21,32 +19,31 @@ public class ProblemFour {
 		ElementCounter counter = new ElementCounter();
 		Map<Integer, Integer> elementCountMap = new HashMap<Integer, Integer>(); 
 		
-		int n_noOfElements; 
+		int n_noOfElements, generatedNumber; 
+		int randomNumbers[];
 		if(args[0] != null) {
 			n_noOfElements = Integer.parseInt(args[0]);
 			
-			//Generate Random Numbers
-			Random randomObj = new Random();
-			IntStream randomNumners = randomObj.ints(n_noOfElements, 1, 3+1); // 1 sec = O(1)
+			randomNumbers = new int[n_noOfElements];
 			
-			
-			 //Storing data exists in Stream to Array
-			 randomNumbersArray = randomNumners.toArray();
-			 
+			//Generate n random numbers between 1 & m_maxNumber for an iteration				
+			for(int numCount = 0; numCount < n_noOfElements; numCount++) {//n times
+				generatedNumber = new Random().nextInt((3+1)-1) + 1;
+				
+				//Adds the new number into array
+				randomNumbers[numCount] = generatedNumber;
+				
+			}
+						
+			 sort(randomNumbers);		 
 			
 			/*
-			 * for(int num : randomNumbersArray) { // n times will get executed.ignore
-			 * System.out.print(" "+num); } System.out.println(" After sorting");
-			 */
-			
-			 sort(randomNumbersArray);
-			 
-			/*
-			 * for(int num : randomNumbersArray) { // n times will get executed.ignore
+			 * for(int num : randomNumbers) { // n times will get executed.ignore
 			 * System.out.print(" "+num); }
 			 */
+			
 			 
-			 counter.countElemnet(randomNumbersArray, elementCountMap);//n 
+			 counter.countElemnet(randomNumbers, elementCountMap);//n 
 			 System.out.println("Elements count-----> "+elementCountMap);
 			
 		}
@@ -58,15 +55,15 @@ public class ProblemFour {
 	
 	 private static void sort(int[] inputArr) {         
 	       
-	        quickSort(0, inputArr.length - 1);
+	        quickSort(0, inputArr.length - 1, inputArr);
 	 }
 	 
-	 private static void quickSort(int lowerIndex, int higherIndex) {
+	 private static void quickSort(int lowerIndex, int higherIndex, int[] inputArr) {
 	         
 	        int i = lowerIndex;
 	        int j = higherIndex;
 	        // calculate pivot number, taking pivot as middle index number
-	        int pivot = randomNumbersArray[lowerIndex+(higherIndex-lowerIndex)/2];
+	        int pivot = inputArr[lowerIndex+(higherIndex-lowerIndex)/2];
 	        // Divide into two arrays
 	        while (i <= j) {//j-i, upperIndex - lowerIndex time
 	            /**
@@ -75,14 +72,14 @@ public class ProblemFour {
 	             * from right side which is less then the pivot value. Once the search 
 	             * is done, then we exchange both numbers.
 	             */
-	            while (randomNumbersArray[i] < pivot) {//lowerIndex+[ (higherIndex-lowerIndex)/2 ] time
+	            while (inputArr[i] < pivot) {//lowerIndex+[ (higherIndex-lowerIndex)/2 ] time
 	                i++;
 	            }
-	            while (randomNumbersArray[j] > pivot) {//{upperIndex - [(higherIndex-lowerIndex)/2] } +1]
+	            while (inputArr[j] > pivot) {//{upperIndex - [(higherIndex-lowerIndex)/2] } +1]
 	                j--;
 	            }
 	            if (i <= j) {
-	                exchangeNumbers(i, j);//O(3)
+	                exchangeNumbers(i, j, inputArr);//O(3)
 	                //move index to next position on both sides
 	                i++;
 	                j--;
@@ -90,15 +87,15 @@ public class ProblemFour {
 	        }
 	        // call quickSort() method recursively
 	        if (lowerIndex < j)
-	            quickSort(lowerIndex, j);
+	            quickSort(lowerIndex, j, inputArr);
 	        if (i < higherIndex)
-	            quickSort(i, higherIndex);
+	            quickSort(i, higherIndex, inputArr);
 	    }
 	 
-	    private static void exchangeNumbers(int i, int j) {
-	        int temp = randomNumbersArray[i];
-	        randomNumbersArray[i] = randomNumbersArray[j];
-	        randomNumbersArray[j] = temp;
+	    private static void exchangeNumbers(int i, int j, int[] inputArr) {
+	        int temp = inputArr[i];
+	        inputArr[i] = inputArr[j];
+	        inputArr[j] = temp;
 	    }
 
 }
