@@ -3,7 +3,6 @@ package hw1;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 import hw1.pojo.Node;
 
@@ -14,40 +13,27 @@ public class ProblemThree {
 		
 		int noOfElements = 100000; 
 		if(args[0] != null) {
-			Node head = new Node();
+			Node head = null;
+			Node previousNode = null;
 						
 			noOfElements = Integer.parseInt(args[0]);
 			
 			//Generate Random Numbers
 			Random randomObj = new Random();
-			IntStream randomNumStream = randomObj.ints(noOfElements, 1, noOfElements+1);// 1 unit time
-			
-			int[] randomNumbers = randomNumStream.toArray();
+			for(int count=0; count < noOfElements; count++) {
+				int randomNumber = 1 + randomObj.nextInt(noOfElements);
+				Node currentNode = new Node(randomNumber);
+				if(head == null) {
+					//head pointing first node
+					head = currentNode;
+				}else {
+					previousNode.setNextNode(currentNode);					
+				}
+				previousNode = currentNode;
+			}					
 			/*
-			 * System.out.println("Generated Numbers--->"); for(int num : randomNumbers) {
-			 * System.out.print(" "+num); }
-			 */
-			
-			//Creating first node and making head to point first node
-			Node firstNode = new Node(randomNumbers[0],null);
-			//Making head to point the first node
-			head.setNextNode(firstNode);
-			
-			Node previousNode = firstNode;
-			Node currentNode = null;
-			for(int index=1; index < randomNumbers.length; index++) {// n times
-				currentNode = createNode(randomNumbers[index]);// 2 unit time
-				//assigning the next node value for each node
-				previousNode.setNextNode(currentNode);// 1 unit time
-				previousNode = currentNode;// 1 unit time		
-				
-			}
-			/*
-			 * System.out.println(""); System.out.println("Node Elements --->");
-			 * printNode(head.getNextNode());
-			 */	
-			
-							
+			 * System.out.println("Node Elements --->"); printNode(head);
+			 */				
 		}
 		Instant endTime = Instant.now();
 		long executionTime = Duration.between(startTime, endTime).toMillis();
@@ -60,15 +46,9 @@ public class ProblemThree {
 		
 		Node currentNode = head;
 		while(currentNode != null) {
-			System.out.print(" "+currentNode);
+			System.out.print(" "+currentNode.getData());
 			currentNode = currentNode.getNextNode();
 		}
-		
-	}
-
-	private static Node createNode(int data) {// 2 unit time
-		Node node = new Node(data, null);
-		return node;
 		
 	}
 

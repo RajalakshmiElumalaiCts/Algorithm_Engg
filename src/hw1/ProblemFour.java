@@ -3,7 +3,6 @@ package hw1;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 import hw1.pojo.Node;
 
@@ -11,6 +10,8 @@ public class ProblemFour {
 
 	public static void main(String[] args) {
 		Instant startTime = Instant.now();
+		Node head = null;
+		Node previousNode = null;
 		
 		int noOfElements = 100000; 
 		if(args[0] != null) {
@@ -19,52 +20,30 @@ public class ProblemFour {
 			
 			//Generate Random Numbers
 			Random randomObj = new Random();
-			IntStream randomNumStream = randomObj.ints(noOfElements, 1, noOfElements+1);	
+			for(int count=0; count < noOfElements; count++) {
+				int randomNumber = 1 + randomObj.nextInt(noOfElements);
+				Node newNode = new Node(randomNumber);
+				if(head == null) {
+					//head pointing first node
+					head = newNode;
+					previousNode = newNode;
+				}else {
+					if(previousNode.getData() <= randomNumber) {
+						//just append the current node, as previous element is smaller one
+						previousNode.setNextNode(newNode);
+						previousNode = newNode;
+					}else {
+						head = findPosition(head, newNode);
+					}					
+				}				
+			}
 			
-			int[] randomNumbers = randomNumStream.toArray();
-			/*
-			 * System.out.println("Generated Numbers--->"); for(int num : randomNumbers) {
-			 * System.out.print(" "+num); }
-			 */
 			
-			int smallNum, tempNum, smallNumIndex;
-			Node previousNode = null;
-			Node currentNode = null;
-			Node head = new Node();
-			
-			//Sorting the array of data
-			 for(int i=0; i < randomNumbers.length; i++) {
-				 smallNum = randomNumbers[i];
-				 smallNumIndex = i;	
-				 for(int j=i+1; j < randomNumbers.length; j++) {					 
-					 if(smallNum > randomNumbers[j]) {
-						 smallNum = randomNumbers[j];
-						 smallNumIndex = j;	
-					 }					 
-				 }	
-				 //saves the smallest element in the original array to
-				 //compare the remaining not sorted numbers
-				 tempNum = randomNumbers[i];
-				 randomNumbers[i] = smallNum;
-				 randomNumbers[smallNumIndex] = tempNum;
-				 
-				 //create node for the small element
-				 currentNode = createNode(smallNum);
-				 if(i == 0) {// Making head to point first node
-					 head.setNextNode(currentNode);	 
-				 }	
-				 if(previousNode != null) {
-					//assigning the next node value for each node
-					 previousNode.setNextNode(currentNode);
-				 }
-				 previousNode = currentNode;	
-								 
-			 }
-			 
 			/*
 			 * System.out.println(""); System.out.println("Node Elements --->");
-			 * printNode(head.getNextNode());
+			 * printNode(head);
 			 */
+			
 		}
 		Instant endTime = Instant.now();
 		long executionTime = Duration.between(startTime, endTime).toMillis();
@@ -73,18 +52,39 @@ public class ProblemFour {
 		
 	}
 		
+		private static Node findPosition(Node head, Node newNode) {
+			Node currentNode = head;
+			Node previous = null;
+			while(currentNode != null) {
+				if(currentNode.getData() >= newNode.getData()) {
+					if(currentNode == head) {
+						newNode.setNextNode(currentNode);
+						head = newNode;						
+						break;
+					}else {
+						newNode.setNextNode(currentNode);
+						previous.setNextNode(newNode);
+						break;
+					}
+					
+				}
+				previous = currentNode;
+				currentNode = currentNode.getNextNode();
+			}	
+			 return head;
+	}
 		private static void printNode(Node head) {
 			
 			Node currentNode = head;
 			while(currentNode != null) {
-				System.out.print(" "+currentNode);
+				System.out.print(" "+currentNode.getData());
 				currentNode = currentNode.getNextNode();
 			}
 			
 		}
 
 		private static Node createNode(int data) {
-			Node node = new Node(data, null);
+			Node node = new Node(data);
 			return node;
 			
 		}

@@ -8,9 +8,8 @@ public class Node {
 		
 	}
 	
-	public Node(int dataField, Node nxtNode) {
+	public Node(int dataField) {
 		data = dataField;
-		nextNode = nxtNode;
 	}
 	
 	public int getData() {
