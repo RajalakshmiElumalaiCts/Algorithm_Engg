@@ -20,7 +20,7 @@ public class ProblemThree {
 			
 			//Generate Random Numbers
 			Random randomObj = new Random();
-			for(int count=0; count < noOfElements; count++) {
+			for(int count=0; count < noOfElements; count++) {// n time
 				int randomNumber = 1 + randomObj.nextInt(noOfElements);
 				Node currentNode = new Node(randomNumber);
 				if(head == null) {

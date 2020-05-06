@@ -13,14 +13,15 @@ public class ProblemFour {
 		Node head = null;
 		Node previousNode = null;
 		
-		int noOfElements = 100000; 
+		int noOfElements; 
 		if(args[0] != null) {
 						
 			noOfElements = Integer.parseInt(args[0]);
+			System.out.println("noOfElements --->"+noOfElements);
 			
 			//Generate Random Numbers
 			Random randomObj = new Random();
-			for(int count=0; count < noOfElements; count++) {
+			for(int count=0; count < noOfElements; count++) { // n times
 				int randomNumber = 1 + randomObj.nextInt(noOfElements);
 				Node newNode = new Node(randomNumber);
 				if(head == null) {
@@ -33,11 +34,10 @@ public class ProblemFour {
 						previousNode.setNextNode(newNode);
 						previousNode = newNode;
 					}else {
-						head = findPosition(head, newNode);
+						head = findPositionAndRtnHead(head, newNode); // n/2 or avg
 					}					
 				}				
-			}
-			
+			}	
 			
 			/*
 			 * System.out.println(""); System.out.println("Node Elements --->");
@@ -47,15 +47,15 @@ public class ProblemFour {
 		}
 		Instant endTime = Instant.now();
 		long executionTime = Duration.between(startTime, endTime).toMillis();
-		System.out.println("\nExecution Time in ms : Numbers stored in linked list without order ---->  "+executionTime);
+		System.out.println("\nExecution Time in ms : Sorted linked list  ---->  "+executionTime);
 		
 		
 	}
 		
-		private static Node findPosition(Node head, Node newNode) {
+		private static Node findPositionAndRtnHead(Node head, Node newNode) {
 			Node currentNode = head;
 			Node previous = null;
-			while(currentNode != null) {
+			while(currentNode != null) {//avg - n/2 
 				if(currentNode.getData() >= newNode.getData()) {
 					if(currentNode == head) {
 						newNode.setNextNode(currentNode);
@@ -81,12 +81,6 @@ public class ProblemFour {
 				currentNode = currentNode.getNextNode();
 			}
 			
-		}
-
-		private static Node createNode(int data) {
-			Node node = new Node(data);
-			return node;
-			
-		}
+		}	
 
 }
